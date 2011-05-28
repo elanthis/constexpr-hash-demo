@@ -30,10 +30,17 @@ unsigned long long hash_rt(const char* str)
 	return hash;
 }
 
+// ensure that the constexpr value is really compile-time constant
+template <unsigned long long NUM>
+struct test_const
+{
+	static const unsigned long long value = NUM;
+};
+
 // test
 int main()
 {
-	constexpr unsigned long long value = hash("hello, world!");
+	constexpr unsigned long long value = test_const<hash("hello, world!")>::value;
 	unsigned long long value_rt = hash_rt("hello, world!");
 
 	std::cout << "hash =    " << value << std::endl;
